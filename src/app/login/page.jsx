@@ -34,7 +34,11 @@ const LoginPage = () => {
         router.push("/dashboard");
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      toast.error(
+        Array.isArray(error?.response?.data?.message)
+          ? error?.response?.data?.message.join("\n")
+          : error?.response?.data?.message
+      );
     }
   };
   return (

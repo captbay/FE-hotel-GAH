@@ -50,8 +50,12 @@ const LoginPage = () => {
         toast.success("Register success, silahkan login");
         router.push("/login");
       })
-      .catch((err) => {
-        toast.error(err.response.data.message);
+      .catch((error) => {
+        toast.error(
+          Array.isArray(error?.response?.data?.message)
+            ? error?.response?.data?.message.join("\n")
+            : error?.response?.data?.message
+        );
       });
   };
   return (
