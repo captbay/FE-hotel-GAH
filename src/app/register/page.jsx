@@ -51,11 +51,13 @@ const LoginPage = () => {
         router.push("/login");
       })
       .catch((error) => {
-        toast.error(
-          Array.isArray(error?.response?.data?.message)
-            ? error?.response?.data?.message.join("\n")
-            : error?.response?.data?.message
-        );
+        if (Array.isArray(error?.response?.data?.message)) {
+          error?.response?.data?.message.map((err) => {
+            toast.error(err);
+          });
+        } else {
+          toast.error(error?.response?.data?.message);
+        }
       });
   };
   return (
