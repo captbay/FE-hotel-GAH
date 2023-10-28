@@ -61,112 +61,113 @@ const LoginPage = () => {
       });
   };
   return (
-    <section className="bg-gray-50">
-      <div className="max-w-xl flex flex-col items-center justify-center px-6 py-8 mx-auto md:min-h-screen lg:py-0">
-        <Link
-          href="/"
-          className="flex items-center mb-6 text-2xl font-semibold text-gray-900"
-        >
-          <img className="w-40 h-8 mr-2" src="/logo.jpg" alt="logo" />
-        </Link>
-        <div className="w-full bg-white rounded-lg shadow">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-              Sign in to your account
-            </h1>
-            <form onSubmit={handleRegister} className="space-y-4 md:space-y-6">
-              <div>
-                <label
-                  for="name"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
-                  Name
-                </label>
-                <Input placeholder="name" type="text" ref={nameRef} />
-              </div>
-              <div>
-                <label
-                  for="email"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
-                  Email
-                </label>
-                <Input placeholder="email" type="text" ref={emailRef} />
-              </div>
-              <div>
-                <label
-                  for="no_identitas"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
-                  No Identitas
-                </label>
-                <Input
-                  placeholder="no_identitas"
-                  type="text"
-                  ref={no_identitasRef}
-                />
-              </div>
-              <div>
-                <label
-                  for="no_phone"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
-                  No Phone
-                </label>
-                <Input placeholder="no_phone" type="text" ref={no_phoneRef} />
-              </div>
-
-              <div>
-                <label
-                  for="address"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
-                  Address
-                </label>
-                <Input placeholder="address" type="text" ref={addressRef} />
-              </div>
-
-              <div>
-                <label
-                  for="username"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
-                  Username
-                </label>
-                <Input placeholder="username" type="text" ref={usernameRef} />
-              </div>
-              <div>
-                <label
-                  for="password"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
-                  Password
-                </label>
-
-                <Input
-                  ref={passwordRef}
-                  placeholder="password"
-                  type="password"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+    <section
+      className="bg-blue-100"
+      style={{
+        backgroundImage: 'url("/images/superior.jpg")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="max-w-xl flex flex-col items-center justify-center px-6 py-8 mx-auto">
+        <div className="w-full bg-white rounded-lg shadow p-6 space-y-4">
+          <Link
+            href="/"
+            className="flex items-center mb-6 text-2xl font-semibold text-blue-800"
+          >
+            <img className="w-40 h-8 mx-auto" src="/logo.jpg" alt="logo" />
+          </Link>
+          <h1 className="text-2xl font-bold leading-tight tracking-tight text-blue-800">
+            Sign in to your account
+          </h1>
+          <form onSubmit={handleRegister} className="space-y-4">
+            <div>
+              <label
+                htmlFor="name"
+                className="block mb-2 text-sm font-medium text-blue-800"
               >
-                Sign in
-              </button>
-              <p className="text-sm font-light text-gray-500">
-                Have an account?{" "}
-                <Link
-                  href="/login"
-                  className="font-medium text-red-600 hover:underline"
-                >
-                  Login
-                </Link>
-              </p>
-            </form>
-          </div>
+                Name
+              </label>
+              <Input placeholder="name" type="text" ref={nameRef} />
+            </div>
+            <div>
+              <label
+                htmlFor="email"
+                className="block mb-2 text-sm font-medium text-blue-800"
+              >
+                Email
+              </label>
+              <Input placeholder="email" type="text" ref={emailRef} />
+            </div>
+            <div>
+              <label
+                htmlFor="no_identitas"
+                className="block mb-2 text-sm font-medium text-blue-800"
+              >
+                No Identitas
+              </label>
+              <Input
+                placeholder="no_identitas"
+                type="text"
+                ref={no_identitasRef}
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="no_phone"
+                className="block mb-2 text-sm font-medium text-blue-800"
+              >
+                No Phone
+              </label>
+              <Input placeholder="no_phone" type="text" ref={no_phoneRef} />
+            </div>
+
+            <div>
+              <label
+                htmlFor="address"
+                className="block mb-2 text-sm font-medium text-blue-800"
+              >
+                Address
+              </label>
+              <Input placeholder="address" type="text" ref={addressRef} />
+            </div>
+
+            <div>
+              <label
+                htmlFor="username"
+                className="block mb-2 text-sm font-medium text-blue-800"
+              >
+                Username
+              </label>
+              <Input placeholder="username" type="text" ref={usernameRef} />
+            </div>
+            <div>
+              <label
+                htmlFor="password"
+                className="block mb-2 text-sm font-medium text-blue-800"
+              >
+                Password
+              </label>
+
+              <Input ref={passwordRef} placeholder="password" type="password" />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            >
+              Sign in
+            </button>
+            <p className="text-sm font-light text-blue-600">
+              Have an account?{" "}
+              <Link
+                href="/login"
+                className="font-medium text-green-500 hover:underline"
+              >
+                Login
+              </Link>
+            </p>
+          </form>
         </div>
       </div>
     </section>
