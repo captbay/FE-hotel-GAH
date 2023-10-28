@@ -39,10 +39,7 @@ const ModalEditMusim = ({ onClose, id }) => {
         if (res.status === 200 || res.status === 201) {
           toast.success("Berhasil mengupdate musim");
           onClose();
-          if (typeof window !== "undefined") {
-            // Access the location object here
-            window.location.reload();
-          }
+          window.location.reload();
         }
       })
       .catch((error) => {
