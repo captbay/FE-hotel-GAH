@@ -29,8 +29,10 @@ const CustomerPage = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setLoading(false); // Move this here
       });
-    setLoading(false);
   }, []);
 
   if (loading) {
@@ -55,56 +57,56 @@ const CustomerPage = () => {
           onChange={(e) => setQuery(e.target.value)}
         />
       </div>
-      <div class="overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <div className="overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 No
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Nama Customer
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Email
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 No Identitas
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Nama Insitusi
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Tipe Customer
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Action
               </th>
             </tr>
           </thead>
           <tbody>
             {filteredCustomer.map((k, index) => (
-              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="px-6 py-4">{index + 1}</td>
+              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <td className="px-6 py-4">{index + 1}</td>
                 <th
                   scope="row"
-                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
                   {k.name}
                 </th>
-                <td class="px-6 py-4">{k.email}</td>
-                <td class="px-6 py-4">{k.no_identitas}</td>
-                <td class="px-6 py-4">
+                <td className="px-6 py-4">{k.email}</td>
+                <td className="px-6 py-4">{k.no_identitas}</td>
+                <td className="px-6 py-4">
                   {k.nama_insitusi == null ? "Tidak ada" : k.nama_insitusi}
                 </td>
-                <td class="px-6 py-4">
+                <td className="px-6 py-4">
                   {" "}
                   {k.nama_insitusi == null ? "Personal" : "Grup"}
                 </td>
-                <td class="px-6 py-4">
+                <td className="px-6 py-4">
                   <a
                     href="#"
-                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                   >
                     Detail
                   </a>

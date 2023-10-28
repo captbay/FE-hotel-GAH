@@ -33,8 +33,10 @@ const ReservasiPage = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setLoading(false); // Move this here
       });
-    setLoading(false);
   }, []);
 
   if (loading) {
@@ -56,74 +58,74 @@ const ReservasiPage = () => {
           onChange={(e) => setQuery(e.target.value)}
         />
       </div>
-      <div class="overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <div className="overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 No Booking
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Nama Customer
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Tanggal Reservasi
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Status
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Total Jaminan
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Total Deposit
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Total Harga
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Tanggal Pembayaran
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Action
               </th>
             </tr>
           </thead>
           <tbody>
             {filteredReservasi.map((k) => (
-              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="px-6 py-4">{k.kode_booking}</td>
+              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <td className="px-6 py-4">{k.kode_booking}</td>
                 <th
                   scope="row"
-                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
                   {k.customer.name}
                 </th>
-                <td class="px-6 py-4">{k.tanggal_reservasi}</td>
-                <td class="px-6 py-4">{k.status}</td>
-                <td class="px-6 py-4">
+                <td className="px-6 py-4">{k.tanggal_reservasi}</td>
+                <td className="px-6 py-4">{k.status}</td>
+                <td className="px-6 py-4">
                   {new Intl.NumberFormat("id-ID", {
                     style: "currency",
                     currency: "IDR",
                   }).format(k.total_jaminan)}
                 </td>
-                <td class="px-6 py-4">
+                <td className="px-6 py-4">
                   {new Intl.NumberFormat("id-ID", {
                     style: "currency",
                     currency: "IDR",
                   }).format(k.total_deposit)}
                 </td>
-                <td class="px-6 py-4">
+                <td className="px-6 py-4">
                   {new Intl.NumberFormat("id-ID", {
                     style: "currency",
                     currency: "IDR",
                   }).format(k.total_harga)}
                 </td>
-                <td class="px-6 py-4">{k.tanggal_pembayaran_lunas}</td>
-                <td class="px-6 py-4">
+                <td className="px-6 py-4">{k.tanggal_pembayaran_lunas}</td>
+                <td className="px-6 py-4">
                   <a
                     href="#"
-                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                   >
                     Edit
                   </a>

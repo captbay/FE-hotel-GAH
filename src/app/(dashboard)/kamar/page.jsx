@@ -46,8 +46,10 @@ const KamarPage = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setLoading(false); // Move this here
       });
-    setLoading(false);
   }, []);
 
   if (loading) {

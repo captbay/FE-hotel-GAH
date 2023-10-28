@@ -79,23 +79,23 @@ const ModalEditKamar = ({ onClose, id }) => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div class="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto">
       <div
         id="authentication-modal"
         aria-hidden="true"
-        class="overflow-x-hidden overflow-y-auto fixed h-full top-4 left-0 right-0 md:inset-0 z-50 justify-center items-center"
+        className="overflow-x-hidden overflow-y-auto fixed h-full top-4 left-0 right-0 md:inset-0 z-50 justify-center items-center"
       >
-        <div class="relative left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md px-4 h-full md:h-auto">
-          <div class="bg-white border rounded-lg shadow relative">
-            <div class="flex justify-end p-2">
+        <div className="relative left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md px-4 h-full md:h-auto">
+          <div className="bg-white border rounded-lg shadow relative">
+            <div className="flex justify-end p-2">
               <button
                 type="button"
-                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                 data-modal-toggle="authentication-modal"
                 onClick={onClose}
               >
                 <svg
-                  class="w-5 h-5"
+                  className="w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
@@ -109,14 +109,14 @@ const ModalEditKamar = ({ onClose, id }) => {
               </button>
             </div>
             <form
-              class="space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8"
+              className="space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8"
               onSubmit={handleSubmit}
             >
-              <h3 class="text-xl font-medium text-gray-900">Edit Kamar</h3>
+              <h3 className="text-xl font-medium text-gray-900">Edit Kamar</h3>
               <div>
                 <label
                   for="email"
-                  class="text-sm font-medium text-gray-900 block mb-2 "
+                  className="text-sm font-medium text-gray-900 block mb-2 "
                 >
                   Jenis Kamar
                 </label>
@@ -134,7 +134,7 @@ const ModalEditKamar = ({ onClose, id }) => {
               <div>
                 <label
                   for="password"
-                  class="text-sm font-medium text-gray-900 block mb-2 "
+                  className="text-sm font-medium text-gray-900 block mb-2 "
                 >
                   Status Kamar
                 </label>
@@ -151,14 +151,14 @@ const ModalEditKamar = ({ onClose, id }) => {
               <div className="flex">
                 <button
                   type="submit"
-                  class="w-full text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  className="w-full text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 >
                   Update
                 </button>
                 {/* cancel button */}
                 <button
                   type="button"
-                  class="w-full text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg border border-gray-200 text-sm px-5 py-2.5 hover:text-gray-900 focus:z-10"
+                  className="w-full text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg border border-gray-200 text-sm px-5 py-2.5 hover:text-gray-900 focus:z-10"
                   onClick={onClose}
                 >
                   Batal

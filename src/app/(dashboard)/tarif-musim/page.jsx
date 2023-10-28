@@ -32,8 +32,10 @@ const TarifMusimPage = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setLoading(false); // Move this here
       });
-    setLoading(false);
   }, []);
 
   if (loading) {
@@ -58,60 +60,60 @@ const TarifMusimPage = () => {
           onChange={(e) => setQuery(e.target.value)}
         />
       </div>
-      <div class="overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <div className="overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 No
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Jenis Kamar
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Jenis Kasur
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Total Kasur
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Nama Musim
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Harga
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Tanggal Mulai
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Action
               </th>
             </tr>
           </thead>
           <tbody>
             {filteredTarifMusim.map((k, index) => (
-              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="px-6 py-4">{index + 1}</td>
+              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <td className="px-6 py-4">{index + 1}</td>
                 <th
                   scope="row"
-                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
                   {k.jenis_kamar.name}
                 </th>
-                <td class="px-6 py-4">{k.jenis_kamar.bed}</td>
-                <td class="px-6 py-4">{k.jenis_kamar.total_bed}</td>
-                <td class="px-6 py-4">{k.musim.name}</td>
-                <td class="px-6 py-4">
+                <td className="px-6 py-4">{k.jenis_kamar.bed}</td>
+                <td className="px-6 py-4">{k.jenis_kamar.total_bed}</td>
+                <td className="px-6 py-4">{k.musim.name}</td>
+                <td className="px-6 py-4">
                   {new Intl.NumberFormat("id-ID", {
                     style: "currency",
                     currency: "IDR",
                   }).format(k.harga)}
                 </td>
-                <td class="px-6 py-4">{k.musim.start_date}</td>
-                <td class="px-6 py-4">
+                <td className="px-6 py-4">{k.musim.start_date}</td>
+                <td className="px-6 py-4">
                   <a
                     href="#"
-                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                   >
                     Edit
                   </a>
