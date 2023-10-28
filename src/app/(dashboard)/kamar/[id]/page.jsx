@@ -81,7 +81,7 @@ const KamarDetail = ({ params: { id } }) => {
               {kamar.status}
             </div>
           </div>
-          <div className="flex flex-col gap-2">
+          {/* <div className="flex flex-col gap-2">
             <span className="font-semibold">Harga</span>
             <span>
               {new Intl.NumberFormat("id-ID", {
@@ -89,7 +89,7 @@ const KamarDetail = ({ params: { id } }) => {
                 currency: "IDR",
               }).format(kamar.jenis_kamar?.harga_default)}
             </span>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="flex flex-col gap-2 mt-4">

@@ -1,15 +1,15 @@
-import { deleteKamarById } from "@/api/api";
+import { deleteMusimById } from "@/api/api";
 import useGetCookie from "@/hooks/useGetCookie";
 import { toast } from "react-toastify";
 
-const ModalDeleteKamar = ({ onCloseModal, kamar }) => {
+const ModalDeleteMusim = ({ onCloseModal, Musim }) => {
   const { token } = useGetCookie();
   const handleDelete = () => {
-    deleteKamarById(token, kamar?.id)
+    deleteMusimById(token, Musim?.id)
       .then((res) => {
         if (res.status === 200 || res.status === 201) {
           onCloseModal();
-          toast.success("Berhasil menghapus data kamar");
+          toast.success("Berhasil menghapus data Musim");
           setTimeout(() => {
             window.location.reload();
           }, 1000);
@@ -60,11 +60,11 @@ const ModalDeleteKamar = ({ onCloseModal, kamar }) => {
                     className="text-base font-semibold leading-6 text-gray-900"
                     id="modal-title"
                   >
-                    Hapus Data Kamar {kamar?.no_kamar}
+                    Hapus Data Musim {Musim?.name}
                   </h3>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      Apakah anda yakin ingin menghapus data kamar ini?
+                      Apakah anda yakin ingin menghapus data Musim ini?
                     </p>
                   </div>
                 </div>
@@ -93,4 +93,4 @@ const ModalDeleteKamar = ({ onCloseModal, kamar }) => {
   );
 };
 
-export default ModalDeleteKamar;
+export default ModalDeleteMusim;

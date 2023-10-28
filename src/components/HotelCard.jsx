@@ -29,13 +29,18 @@ const HotelCard = ({ data, onDelete, onEdit }) => {
       <div className="p-5 flex flex-col h-full">
         <div className="flex items-center justify-between mb-4">
           <h5 className="text-lg font-bold tracking-tight text-white">
-            {data.no_kamar} - {jenisKamar}
+            {data.no_kamar} - {data.jenis_kamar.name}
           </h5>
           <div className="bg-blue-500 px-2 py-1 text-xs w-max text-white font-semibold  rounded-full">
             {data.status}
           </div>
         </div>
-        <div className="flex items-center justify-between mb-4">
+        <div>
+          <h5 className="text-lg font-bold tracking-tight text-white">
+            {data.jenis_kamar.total_bed} - {data.jenis_kamar.bed}
+          </h5>
+        </div>
+        <div className="flex items-center justify-between m-4">
           <Link
             href={`/kamar/${data.id}`}
             className="mt-auto w-max inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"

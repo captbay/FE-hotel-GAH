@@ -1,32 +1,50 @@
 "use client";
 
-import { createKamar } from "@/api/api";
+import { getMusimById, updateMusimById } from "@/api/api";
 import useGetCookie from "@/hooks/useGetCookie";
-import React from "react";
-
-import ReactSelect from "react-select";
+import React, { useEffect, useState } from "react";
+import Input from "../../Input";
 import { toast } from "react-toastify";
 
-const ModalTambahKamar = ({ onClose }) => {
+const ModalEditMusim = ({ onClose, id }) => {
   const { token } = useGetCookie();
-  const jenisKamarRef = React.useRef(null);
-  const statusKamarRef = React.useRef(null);
+  const nameRef = React.useRef(null);
+  const start_dateRef = React.useRef(null);
+  const end_dateRef = React.useRef(null);
+  const [musim, setMusim] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  const handleAdd = ({ jenis_kamar_id, status }) => {
-    createKamar(token, { jenis_kamar_id, status })
+  useEffect(() => {
+    setLoading(true);
+    getMusimById(token, id)
       .then((res) => {
-        console.log(res);
-
         if (res.status === 200 || res.status === 201) {
-          toast.success("Berhasil menambahkan kamar");
+          setMusim(res.data.data);
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, []);
+
+  const handleUpdate = (id, { name, start_date, end_date }) => {
+    updateMusimById(token, id, {
+      name,
+      start_date,
+      end_date,
+    })
+      .then((res) => {
+        if (res.status === 200 || res.status === 201) {
+          toast.success("Berhasil mengupdate musim");
           onClose();
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
+          window.location.reload();
         }
       })
       .catch((error) => {
         console.log(error);
+
         if (Array.isArray(error?.response?.data?.message)) {
           error?.response?.data?.message.map((err) => {
             toast.error(err);
@@ -37,27 +55,16 @@ const ModalTambahKamar = ({ onClose }) => {
       });
   };
 
-  const statusOptions = [
-    { value: "available", label: "Available" },
-    { value: "unvailable", label: "Unavailable" },
-  ];
-
-  const kamarOptions = [
-    { value: 1, label: "Superior - Double Bed" },
-    { value: 2, label: "Superior - Twin Bed" },
-    { value: 3, label: "Double Deluxe - Double Bed" },
-    { value: 4, label: "Double Deluxe - Twin Bed" },
-    { value: 5, label: "Executive Deluxe - King Bed" },
-    { value: 6, label: "Junior Suite - King Bed" },
-  ];
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    const jenis_kamar_id = jenisKamarRef.current.getValue()[0].value;
-    const status = statusKamarRef.current.getValue()[0].value;
+    const name = nameRef.current.value;
+    const start_date = start_dateRef.current.value;
+    const end_date = end_dateRef.current.value;
 
-    handleAdd({ jenis_kamar_id, status });
+    handleUpdate(id, { name, start_date, end_date });
   };
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div class="max-w-2xl mx-auto">
@@ -93,42 +100,58 @@ const ModalTambahKamar = ({ onClose }) => {
               class="space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8"
               onSubmit={handleSubmit}
             >
-              <h3 class="text-xl font-medium text-gray-900">Tambah Kamar</h3>
+              <h3 class="text-xl font-medium text-gray-900">Edit Musim</h3>
               <div>
                 <label
-                  for="email"
+                  for="nama"
                   class="text-sm font-medium text-gray-900 block mb-2 "
                 >
-                  Jenis Kamar
+                  Nama Musim
                 </label>
-                <ReactSelect
-                  options={kamarOptions}
-                  defaultValue={kamarOptions[0]}
-                  className="w-full"
-                  ref={jenisKamarRef}
+                <Input
+                  id="nama"
+                  ref={nameRef}
+                  placeholder="Nama musim"
+                  defaultValue={musim.name}
                 />
               </div>
               <div>
                 <label
-                  for="password"
+                  for="start_date"
                   class="text-sm font-medium text-gray-900 block mb-2 "
                 >
-                  Status Kamar
+                  Tanggal Mulai Musim
                 </label>
-                <ReactSelect
-                  options={statusOptions}
-                  defaultValue={statusOptions[0]}
-                  className="w-full"
-                  ref={statusKamarRef}
+                <Input
+                  id="start_date"
+                  ref={start_dateRef}
+                  placeholder="Tanggal mulai musim"
+                  type="date"
+                  defaultValue={musim.start_date}
+                />
+              </div>
+              <div>
+                <label
+                  for="end_date"
+                  class="text-sm font-medium text-gray-900 block mb-2 "
+                >
+                  Tanggal Beakhir Musim
+                </label>
+                <Input
+                  id="end_date"
+                  ref={end_dateRef}
+                  placeholder="Tanggal berakhir musim"
+                  type="date"
+                  defaultValue={musim.end_date}
                 />
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex">
                 <button
                   type="submit"
                   class="w-full text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 >
-                  Tambah
+                  Update
                 </button>
                 {/* cancel button */}
                 <button
@@ -147,4 +170,4 @@ const ModalTambahKamar = ({ onClose }) => {
   );
 };
 
-export default ModalTambahKamar;
+export default ModalEditMusim;

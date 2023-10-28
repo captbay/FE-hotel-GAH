@@ -41,10 +41,16 @@ const ModalEditKamar = ({ onClose, id }) => {
           window.location.reload();
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(error);
 
-        toast.error(err?.response?.data?.message);
+        if (Array.isArray(error?.response?.data?.message)) {
+          error?.response?.data?.message.map((err) => {
+            toast.error(err);
+          });
+        } else {
+          toast.error(error?.response?.data?.message);
+        }
       });
   };
 
@@ -118,8 +124,8 @@ const ModalEditKamar = ({ onClose, id }) => {
                   options={kamarOptions}
                   defaultValue={
                     kamarOptions.find(
-                      (option) => option.value === kamar?.jenis_kamar_id
-                    ) || ""
+                      (option) => option.value === kamar.jenis_kamar_id
+                    ) || kamarOptions[kamar.jenis_kamar_id - 1]
                   }
                   className="w-full"
                   ref={jenisKamarRef}
@@ -135,9 +141,7 @@ const ModalEditKamar = ({ onClose, id }) => {
                 <ReactSelect
                   options={statusOptions}
                   defaultValue={
-                    statusOptions.find(
-                      (option) => option.value === kamar?.status
-                    ) || ""
+                    statusOptions[kamar.status == "available" ? 0 : 1]
                   }
                   className="w-full"
                   ref={statusKamarRef}

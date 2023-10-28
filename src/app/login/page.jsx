@@ -1,9 +1,11 @@
 "use client";
+
+import { Eye, EyeOff } from "lucide-react";
 import { login } from "@/api/api";
 import Input from "@/components/Input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { setCookie } from "cookies-next";
 
@@ -11,6 +13,7 @@ const LoginPage = () => {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -44,6 +47,11 @@ const LoginPage = () => {
       }
     }
   };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
   return (
     <section className="bg-blue-100 flex flex-col md:flex-row min-w-max min-h-screen gap-20">
       <div
@@ -89,12 +97,20 @@ const LoginPage = () => {
               >
                 Password
               </label>
-
-              <Input
-                ref={passwordRef}
-                placeholder="Enter your password"
-                type="password"
-              />
+              <div className="relative">
+                <Input
+                  ref={passwordRef}
+                  placeholder="Enter your password"
+                  type={showPassword ? "text" : "password"}
+                />
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer"
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
             </div>
 
             <button

@@ -18,7 +18,7 @@ const useGetCookie = () => {
 
   return {
     role: cookie?.role,
-    token: cookie?.token || JSON?.parse(cookieData)?.token,
+    token: cookie?.token || (cookieData && JSON?.parse(cookieData)?.token),
     name: cookie?.name,
     clearCookie,
   };
