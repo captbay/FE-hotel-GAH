@@ -11,7 +11,10 @@ const ModalDeleteKamar = ({ onCloseModal, kamar }) => {
           onCloseModal();
           toast.success("Berhasil menghapus data kamar");
           setTimeout(() => {
-            window.location.reload();
+            if (typeof window !== "undefined") {
+              // Access the location object here
+              window.location.reload();
+            }
           }, 1000);
         }
       })

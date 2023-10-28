@@ -21,7 +21,10 @@ const ModalTambahMusim = ({ onClose }) => {
           toast.success("Berhasil menambahkan musim");
           onClose();
           setTimeout(() => {
-            window.location.reload();
+            if (typeof window !== "undefined") {
+              // Access the location object here
+              window.location.reload();
+            }
           }, 1000);
         }
       })

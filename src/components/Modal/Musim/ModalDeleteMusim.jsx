@@ -11,7 +11,10 @@ const ModalDeleteMusim = ({ onCloseModal, Musim }) => {
           onCloseModal();
           toast.success("Berhasil menghapus data Musim");
           setTimeout(() => {
-            window.location.reload();
+            if (typeof window !== "undefined") {
+              // Access the location object here
+              window.location.reload();
+            }
           }, 1000);
         }
       })
