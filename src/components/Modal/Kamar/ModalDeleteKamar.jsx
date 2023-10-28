@@ -1,3 +1,5 @@
+"use client";
+
 import { deleteKamarById } from "@/api/api";
 import useGetCookie from "@/hooks/useGetCookie";
 import { toast } from "react-toastify";
