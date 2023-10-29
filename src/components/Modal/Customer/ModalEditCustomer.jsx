@@ -32,7 +32,9 @@ const ModalEditCustomer = ({ onClose, data }) => {
         if (res.status === 200 || res.status === 201) {
           toast.success("Berhasil mengupdate customer");
           onClose();
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         }
       })
       .catch((error) => {

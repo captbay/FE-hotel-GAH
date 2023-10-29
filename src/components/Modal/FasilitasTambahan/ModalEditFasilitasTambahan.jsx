@@ -40,7 +40,9 @@ const ModalEditFasilitasTambahan = ({ onClose, id }) => {
         if (res.status === 200 || res.status === 201) {
           toast.success("Berhasil mengupdate FasilitasTambahan");
           onClose();
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         }
       })
       .catch((error) => {
