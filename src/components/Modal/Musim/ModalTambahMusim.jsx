@@ -52,7 +52,7 @@ const ModalTambahMusim = ({ onClose }) => {
       <div
         id="authentication-modal"
         aria-hidden="true"
-        className="overflow-x-hidden overflow-y-auto fixed h-full top-4 left-0 right-0 md:inset-0 z-50 justify-center items-center"
+        className="bg-gray-500 bg-opacity-75 transition-opacity overflow-x-hidden overflow-y-auto fixed h-full top-4 left-0 right-0 md:inset-0 z-50 justify-center items-center"
       >
         <div className="relative left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md px-4 h-full md:h-auto">
           <div className="bg-white border rounded-lg shadow relative">
