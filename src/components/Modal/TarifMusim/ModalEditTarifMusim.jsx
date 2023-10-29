@@ -1,25 +1,26 @@
 "use client";
 
-import { getKamarById, updateKamarById } from "@/api/api";
+import { getTarifMusimById, updateTarifMusimById } from "@/api/api";
 import useGetCookie from "@/hooks/useGetCookie";
 import React, { useEffect, useState } from "react";
-
-import ReactSelect from "react-select";
+import Input from "../../Input";
 import { toast } from "react-toastify";
+import ReactSelect from "react-select";
 
-const ModalEditKamar = ({ onClose, id }) => {
+const ModalEditTarifMusim = ({ onClose, id, musimOptions }) => {
   const { token } = useGetCookie();
-  const jenisKamarRef = React.useRef(null);
-  const statusKamarRef = React.useRef(null);
-  const [kamar, setKamar] = useState({});
+  const musim_idRef = React.useRef(null);
+  const jenis_kamar_idRef = React.useRef(null);
+  const hargaRef = React.useRef(null);
+  const [TarifMusim, setTarifMusim] = useState({});
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    getKamarById(token, id)
+    getTarifMusimById(token, id)
       .then((res) => {
         if (res.status === 200 || res.status === 201) {
-          setKamar(res.data.data);
+          setTarifMusim(res.data.data);
           setLoading(false);
         }
       })
@@ -29,14 +30,15 @@ const ModalEditKamar = ({ onClose, id }) => {
       });
   }, []);
 
-  const handleUpdate = (id, { jenis_kamar_id, status }) => {
-    updateKamarById(token, id, {
+  const handleUpdate = (id, { musim_id, jenis_kamar_id, harga }) => {
+    updateTarifMusimById(token, id, {
+      musim_id,
       jenis_kamar_id,
-      status,
+      harga,
     })
       .then((res) => {
         if (res.status === 200 || res.status === 201) {
-          toast.success("Berhasil mengupdate kamar");
+          toast.success("Berhasil mengupdate TarifMusim");
           onClose();
           window.location.reload();
         }
@@ -54,10 +56,14 @@ const ModalEditKamar = ({ onClose, id }) => {
       });
   };
 
-  const statusOptions = [
-    { value: "available", label: "Available" },
-    { value: "unvailable", label: "Unavailable" },
-  ];
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const musim_id = musim_idRef.current.getValue()[0].value;
+    const jenis_kamar_id = jenis_kamar_idRef.current.getValue()[0].value;
+    const harga = hargaRef.current.value;
+
+    handleUpdate(id, { musim_id, jenis_kamar_id, harga });
+  };
 
   const kamarOptions = [
     { value: 1, label: "Superior - Double Bed" },
@@ -67,14 +73,6 @@ const ModalEditKamar = ({ onClose, id }) => {
     { value: 5, label: "Executive Deluxe - King Bed" },
     { value: 6, label: "Junior Suite - King Bed" },
   ];
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const jenis_kamar_id = jenisKamarRef.current.getValue()[0]?.value;
-    const status = statusKamarRef.current.getValue()[0]?.value;
-
-    handleUpdate(id, { jenis_kamar_id, status });
-  };
 
   if (loading) return <div>Loading...</div>;
 
@@ -112,11 +110,30 @@ const ModalEditKamar = ({ onClose, id }) => {
               className="space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8"
               onSubmit={handleSubmit}
             >
-              <h3 className="text-xl font-medium text-gray-900">Edit Kamar</h3>
+              <h3 className="text-xl font-medium text-gray-900">
+                Edit TarifMusim
+              </h3>
               <div>
                 <label
-                  for="email"
-                  className="text-sm font-medium text-gray-900 block mb-2 "
+                  for="nama"
+                  class="text-sm font-medium text-gray-900 block mb-2 "
+                >
+                  Nama Musim
+                </label>
+                <ReactSelect
+                  options={musimOptions}
+                  defaultValue={
+                    musimOptions.find(
+                      (option) => option.value == TarifMusim?.musim_id
+                    ) || ""
+                  }
+                  ref={musim_idRef}
+                />
+              </div>
+              <div>
+                <label
+                  for="jenis_kamar_id"
+                  class="text-sm font-medium text-gray-900 block mb-2 "
                 >
                   Jenis Kamar
                 </label>
@@ -124,27 +141,24 @@ const ModalEditKamar = ({ onClose, id }) => {
                   options={kamarOptions}
                   defaultValue={
                     kamarOptions.find(
-                      (option) => option.value == kamar.jenis_kamar_id
-                    ) || kamarOptions[kamar.jenis_kamar_id - 1]
+                      (option) => option.value == TarifMusim?.jenis_kamar_id
+                    ) || ""
                   }
-                  className="w-full"
-                  ref={jenisKamarRef}
+                  ref={jenis_kamar_idRef}
                 />
               </div>
               <div>
                 <label
-                  for="password"
+                  for="harga"
                   className="text-sm font-medium text-gray-900 block mb-2 "
                 >
-                  Status Kamar
+                  Harga
                 </label>
-                <ReactSelect
-                  options={statusOptions}
-                  defaultValue={
-                    statusOptions[kamar.status == "available" ? 0 : 1]
-                  }
-                  className="w-full"
-                  ref={statusKamarRef}
+                <Input
+                  id="harga"
+                  ref={hargaRef}
+                  placeholder="Harga TarifMusim"
+                  defaultValue={TarifMusim.harga}
                 />
               </div>
 
@@ -172,4 +186,4 @@ const ModalEditKamar = ({ onClose, id }) => {
   );
 };
 
-export default ModalEditKamar;
+export default ModalEditTarifMusim;
