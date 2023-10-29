@@ -31,9 +31,15 @@ const HotelCard = ({ data, onDelete, onEdit }) => {
           <h5 className="text-lg font-bold tracking-tight text-white">
             {data.no_kamar} - {data.jenis_kamar.name}
           </h5>
-          <div className="bg-blue-500 px-2 py-1 text-xs w-max text-white font-semibold  rounded-full">
-            {data.status}
-          </div>
+          {data.status == "available" ? (
+            <div className="bg-blue-500 px-2 py-1 text-xs w-max text-white font-semibold  rounded-full">
+              {data.status}
+            </div>
+          ) : (
+            <div className="bg-yellow-500 px-2 py-1 text-xs w-max text-white font-semibold  rounded-full">
+              {data.status}
+            </div>
+          )}
         </div>
         <div>
           <h5 className="text-lg font-bold tracking-tight text-white">

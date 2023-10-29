@@ -33,6 +33,14 @@ export const logout = (token) => {
   });
 };
 
+export const changePassword = (token, data) => {
+  return axios.post(`/users/change-password`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 // kamar
 export const getAllKamar = (token) => {
   return axios.get("/kamar/all", {

@@ -5,7 +5,7 @@ import { login } from "@/api/api";
 import Input from "@/components/Input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { toast } from "react-toastify";
 import { setCookie } from "cookies-next";
 
@@ -13,7 +13,6 @@ const LoginPage = () => {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -28,7 +27,9 @@ const LoginPage = () => {
           {
             token: res.data.access_token,
             role: res.data.role,
+            username: res.data.username,
             name: res.data.data.name,
+            id: res.data.data.id,
           },
           {
             maxAge: 30 * 24 * 60 * 60,
@@ -46,10 +47,6 @@ const LoginPage = () => {
         toast.error(error?.response?.data?.message);
       }
     }
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   return (
@@ -101,15 +98,8 @@ const LoginPage = () => {
                 <Input
                   ref={passwordRef}
                   placeholder="Enter your password"
-                  type={showPassword ? "text" : "password"}
+                  type="password"
                 />
-                <button
-                  type="button"
-                  onClick={togglePasswordVisibility}
-                  className="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer"
-                >
-                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
               </div>
             </div>
 

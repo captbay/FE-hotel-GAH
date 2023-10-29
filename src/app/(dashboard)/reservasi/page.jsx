@@ -1,13 +1,12 @@
 "use client";
-import { getAllReservasi } from "@/api/api";
-import HotelCard from "@/components/HotelCard";
+import { getAllReservasi, getAllReservasiForCustomer } from "@/api/api";
 import useGetCookie from "@/hooks/useGetCookie";
 import { useEffect, useState } from "react";
 import ModalDetailReservasi from "@/components/Modal/Reservasi/ModalDetailReservasi";
 
 const ReservasiPage = () => {
   const [Reservasi, setReservasi] = useState([]);
-  const { token } = useGetCookie();
+  const { token, role } = useGetCookie();
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -29,19 +28,37 @@ const ReservasiPage = () => {
 
   useEffect(() => {
     setLoading(true);
-    getAllReservasi(token)
-      .then((res) => {
-        if (res.status === 200 || res.status === 201) {
-          setReservasi(res.data.data);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false); // Move this here
-      });
-  }, []);
+
+    if (!role) return;
+
+    if (role != "Customer") {
+      getAllReservasi(token)
+        .then((res) => {
+          if (res.status === 200 || res.status === 201) {
+            setReservasi(res.data.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setLoading(false); // Move this here
+        });
+    } else {
+      getAllReservasiForCustomer(token)
+        .then((res) => {
+          if (res.status === 200 || res.status === 201) {
+            setReservasi(res.data.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setLoading(false); // Move this here
+        });
+    }
+  }, [role]);
 
   const handleOpenModalDetail = (index) => {
     setSelectedReservasi(Reservasi[index]);

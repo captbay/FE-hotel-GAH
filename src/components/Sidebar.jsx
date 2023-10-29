@@ -6,6 +6,7 @@ import {
   BedDouble,
   Calendar,
   LayoutDashboard,
+  LockKeyhole,
   LogOut,
   Tornado,
   User,
@@ -80,32 +81,94 @@ export default function Sidebar() {
               />
             </div>
           ) : null}
+          {role === "Customer" ? (
+            <div>
+              <SidebarItem
+                active={pathname === "/reservasi"}
+                icon={<Calendar />}
+                text={"Data Reservasi"}
+                href={"/reservasi"}
+              />
+            </div>
+          ) : null}
         </ul>
+        {role === "Customer" ? (
+          <div>
+            <div className="border-t">
+              <SidebarItem
+                active={pathname === "/change-password"}
+                icon={<LockKeyhole />}
+                text={"Ganti Password"}
+                href={"/change-password"}
+              />
+            </div>
 
-        <div className="border-t flex p-3">
-          <img
-            src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
-            alt=""
-            className="w-10 h-10 rounded-md"
-          />
-          <div
-            className={`
+            <div className="border-t flex p-3">
+              <Link href={"/profile"}>
+                <img
+                  src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
+                  alt=""
+                  className="w-10 h-10 rounded-md"
+                />
+              </Link>
+              <div
+                className={`
               flex justify-between items-center
               overflow-hidden transition-all w-52 ml-3
           `}
-          >
-            <div className="leading-4">
-              <h4 className="font-semibold text-white">{name}</h4>
-              <span className="text-xs text-white">{role}</span>
+              >
+                <Link href={"/profile"}>
+                  <div className="leading-4">
+                    <h4 className="font-semibold text-white">{name}</h4>
+                    <span className="text-xs text-white">{role}</span>
+                  </div>
+                </Link>
+                <LogOut
+                  color="white"
+                  size={20}
+                  onClick={onOpenModal}
+                  className="cursor-pointer"
+                />
+              </div>
             </div>
-            <LogOut
-              color="white"
-              size={20}
-              onClick={onOpenModal}
-              className="cursor-pointer"
-            />
           </div>
-        </div>
+        ) : (
+          <div>
+            <div className="border-t">
+              <SidebarItem
+                active={pathname === "/change-password"}
+                icon={<LockKeyhole />}
+                text={"Ganti Password"}
+                href={"/change-password"}
+              />
+            </div>
+
+            <div className="border-t flex p-3">
+              <img
+                src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
+                alt=""
+                className="w-10 h-10 rounded-md"
+              />
+              <div
+                className={`
+          flex justify-between items-center
+          overflow-hidden transition-all w-52 ml-3
+      `}
+              >
+                <div className="leading-4">
+                  <h4 className="font-semibold text-white">{name}</h4>
+                  <span className="text-xs text-white">{role}</span>
+                </div>
+                <LogOut
+                  color="white"
+                  size={20}
+                  onClick={onOpenModal}
+                  className="cursor-pointer"
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
       {isShowModal && <ModalLogout onCloseModal={onCloseModal} />}
     </aside>
