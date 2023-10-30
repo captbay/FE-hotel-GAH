@@ -11,7 +11,7 @@ export function middleware(req) {
       };
   const pathname = new URL(req.url).pathname;
 
-  const isPublicRoutes = ["/login", "/register"];
+  const isPublicRoutes = ["/login", "/register", "/"];
 
   if (isPublicRoutes.includes(pathname) && token) {
     const dashboardUrl = new URL("/dashboard", req.nextUrl).href;

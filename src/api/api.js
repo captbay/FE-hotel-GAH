@@ -41,6 +41,11 @@ export const changePassword = (token, data) => {
   });
 };
 
+// informasi umum
+export const getAllKamarInformasiUmum = () => {
+  return axios.get("/kamar/information");
+};
+
 // kamar
 export const getAllKamar = (token) => {
   return axios.get("/kamar/all", {
