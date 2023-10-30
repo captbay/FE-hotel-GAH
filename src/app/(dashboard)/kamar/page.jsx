@@ -22,7 +22,8 @@ const KamarPage = () => {
       k.no_kamar.toLowerCase().includes(query.toLowerCase()) ||
       k.jenis_kamar.name.toLowerCase().includes(query.toLowerCase()) ||
       k.jenis_kamar.bed.toLowerCase().includes(query.toLowerCase()) ||
-      k.jenis_kamar.total_bed.toString().includes(query.toString())
+      k.jenis_kamar.total_bed.toString().includes(query.toString()) ||
+      k.status.toLowerCase().includes(query.toLowerCase())
     );
   });
 
