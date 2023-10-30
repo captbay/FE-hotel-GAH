@@ -17,7 +17,7 @@ const CustomerPage = () => {
       k.name.toLowerCase().includes(query.toLowerCase()) ||
       k.email.toLowerCase().includes(query.toLowerCase()) ||
       k.no_identitas.toLowerCase().includes(query.toLowerCase()) ||
-      k.nama_insitusi.toLowerCase().includes(query.toLowerCase())
+      k.nama_insitusi?.toLowerCase().includes(query.toLowerCase())
     );
   });
 
