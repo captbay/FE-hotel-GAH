@@ -1,6 +1,6 @@
 "use client";
 
-import { Eye, EyeOff } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { login } from "@/api/api";
 import Input from "@/components/Input";
 import Link from "next/link";
@@ -50,7 +50,7 @@ const LoginPage = () => {
   };
 
   return (
-    <section className="bg-blue-100 flex flex-col md:flex-row min-w-max min-h-screen gap-20">
+    <section className="bg-blue-100 flex flex-col md:flex-row min-w-max min-h-screen">
       <div
         className="w-full md:w-1/2 p-6 md:p-12 flex items-center justify-center"
         style={{
@@ -69,6 +69,14 @@ const LoginPage = () => {
         </div>
       </div>
       <div className="w-full md:w-1/2 flex flex-col items-center justify-center">
+        <div className="md:ml-auto flex flex-wrap items-center text-base justify-center p-7">
+          <Link href="/">
+            <button className="inline-flex items-center bg-indigo-500 text-white border-0 py-1 px-3 focus:outline-none hover:bg-green-900 rounded text-base mt-4 md:mt-0">
+              <ArrowLeft />
+              Back to Homepage
+            </button>
+          </Link>
+        </div>
         <div className="max-w-md bg-white rounded-lg shadow p-6 md:p-12 space-y-4 md:space-y-6">
           <Link href="/" className=" mb-6 text-2xl font-semibold text-gray-900">
             <img className="w-40 h-8 mx-auto" src="/logo.jpg" alt="logo" />
