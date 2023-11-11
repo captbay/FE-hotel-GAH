@@ -277,3 +277,74 @@ export const regisCustomerGroup = (token, data) => {
     },
   });
 };
+
+// code 2
+export const getDashboard = (token, start_date, end_date) => {
+  return axios.get("/kamar/dashboard", {
+    params: {
+      start_date: start_date,
+      end_date: end_date,
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const postReservasi = (token, data) => {
+  return axios.post(`/reservasi/create`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const getCustomerGrup = (token) => {
+  return axios.get("/customer/grup", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const getTandaTerimaPDF = (token, id) => {
+  return axios.get(`/reservasi/create/tanda-terima/${id}`, {
+    responseType: "blob",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const getReservasiCancleList = (token) => {
+  return axios.get("/reservasi/cancel/list", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const putCancelReservasi = (token, id) => {
+  return axios.put(`/reservasi/cancel/${id}`, null, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const getReservasiGrup = (token) => {
+  return axios.get("/reservasi/grup/list", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const putUangJaminanGrup = (token, id, data) => {
+  return axios.put(`/reservasi/grup/jaminan/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

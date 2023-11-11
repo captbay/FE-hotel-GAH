@@ -1,34 +1,60 @@
-import { logout } from "@/api/api";
+"use client";
+
+import { postReservasi } from "@/api/api";
 import useGetCookie from "@/hooks/useGetCookie";
-import { useRouter } from "next/navigation";
-import React from "react";
 import { toast } from "react-toastify";
 import { useReservasiStore } from "@/store/useReservasi";
+import { useRouter } from "next/navigation";
 
-const ModalLogout = ({ onCloseModal }) => {
+const ModalConfirmReservasi = ({ onCloseModal, data }) => {
+  const { token, role } = useGetCookie();
   const router = useRouter();
-  const { token, clearCookie } = useGetCookie();
-  const clearReservasi = useReservasiStore((state) => state.clearReservasi);
+  // resrvasi
+  const setIdReservasi = useReservasiStore((state) => state.setIdReservasi);
+  const setCart = useReservasiStore((state) => state.setCart);
+  const setStartDate = useReservasiStore((state) => state.setStartDate);
+  const setEndDate = useReservasiStore((state) => state.setEndDate);
+  const setPeople = useReservasiStore((state) => state.setPeople);
+  const setNote = useReservasiStore((state) => state.setNote);
+  const setIdCustGrup = useReservasiStore((state) => state.setIdCustGrup);
 
-  const handleLogout = () => {
-    logout(token)
+  const handle = () => {
+    postReservasi(token, data)
       .then((res) => {
+        console.log(res);
         if (res.status === 200 || res.status === 201) {
-          clearCookie();
-          localStorage.clear();
-          clearReservasi();
+          setIdReservasi(res.data.id_reservasi);
+          // set useReservasiStore to default
+          setCart([]);
+          setStartDate(null);
+          setEndDate(null);
+          setNote("");
+          setPeople({
+            dewasa: 0,
+            anak: 0,
+          });
+          setIdCustGrup(null);
+          toast.success("Berhasil reservasi");
           onCloseModal();
-          toast.success("Logout success");
-          router.push("/login");
+          setTimeout(() => {
+            router.push("/resume-reservasi");
+          }, 1000);
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(error);
+        if (Array.isArray(error?.response?.data?.message)) {
+          error?.response?.data?.message.map((err) => {
+            toast.error(err);
+          });
+        } else {
+          toast.error(error?.response?.data?.message);
+        }
       });
   };
   return (
     <div
-      className="relative z-[9999]"
+      className="relative z-10"
       aria-labelledby="modal-title"
       role="dialog"
       aria-modal="true"
@@ -61,13 +87,8 @@ const ModalLogout = ({ onCloseModal }) => {
                     className="text-base font-semibold leading-6 text-gray-900"
                     id="modal-title"
                   >
-                    Logout from Account
+                    Yakin ingin Reservasi?
                   </h3>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      Are you sure you want to logout?
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>
@@ -75,16 +96,16 @@ const ModalLogout = ({ onCloseModal }) => {
               <button
                 type="button"
                 className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                onClick={handleLogout}
+                onClick={handle}
               >
-                Yes, Logout
+                Ya
               </button>
               <button
                 type="button"
                 className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                 onClick={onCloseModal}
               >
-                Cancel
+                Batal
               </button>
             </div>
           </div>
@@ -94,4 +115,4 @@ const ModalLogout = ({ onCloseModal }) => {
   );
 };
 
-export default ModalLogout;
+export default ModalConfirmReservasi;

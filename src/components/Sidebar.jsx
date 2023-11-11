@@ -33,12 +33,6 @@ export default function Sidebar() {
           <h1 className="text-white">Grand Hotel Atma</h1>
         </div>
         <ul className="flex-1 px-3 mt-4">
-          <SidebarItem
-            active={pathname === "/dashboard"}
-            icon={<LayoutDashboard />}
-            text={"Dashboard"}
-            href={"/dashboard"}
-          />
           {role === "Admin" ? (
             <SidebarItem
               active={pathname === "/kamar"}
@@ -49,6 +43,12 @@ export default function Sidebar() {
           ) : null}
           {role === "SM" ? (
             <div>
+              <SidebarItem
+                active={pathname === "/dashboard"}
+                icon={<LayoutDashboard />}
+                text={"Dashboard"}
+                href={"/dashboard"}
+              />
               <SidebarItem
                 active={pathname === "/musim"}
                 icon={<Tornado />}
@@ -83,6 +83,12 @@ export default function Sidebar() {
           ) : null}
           {role === "Customer" ? (
             <div>
+              <SidebarItem
+                active={pathname === "/dashboard"}
+                icon={<LayoutDashboard />}
+                text={"Dashboard"}
+                href={"/dashboard"}
+              />
               <SidebarItem
                 active={pathname === "/reservasi"}
                 icon={<Calendar />}

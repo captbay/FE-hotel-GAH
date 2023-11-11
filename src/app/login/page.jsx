@@ -8,11 +8,17 @@ import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { toast } from "react-toastify";
 import { setCookie } from "cookies-next";
+import { useReservasiStore } from "@/store/useReservasi";
 
 const LoginPage = () => {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const router = useRouter();
+  const setCart = useReservasiStore((state) => state.setCart);
+  const setStartDate = useReservasiStore((state) => state.setStartDate);
+  const setEndDate = useReservasiStore((state) => state.setEndDate);
+  const setNote = useReservasiStore((state) => state.setNote);
+  const setPeople = useReservasiStore((state) => state.setPeople);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -36,7 +42,20 @@ const LoginPage = () => {
             path: "/",
           }
         );
-        router.push("/dashboard");
+        setCart([]);
+        setStartDate(null);
+        setEndDate(null);
+        setNote("");
+        setPeople({
+          dewasa: 0,
+          anak: 0,
+        });
+        localStorage.clear();
+        if (res.data.role === "Admin") {
+          router.push("/kamar");
+        } else {
+          router.push("/dashboard");
+        }
       }
     } catch (error) {
       if (Array.isArray(error?.response?.data?.message)) {

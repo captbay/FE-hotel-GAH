@@ -1,34 +1,50 @@
-import { logout } from "@/api/api";
-import useGetCookie from "@/hooks/useGetCookie";
-import { useRouter } from "next/navigation";
-import React from "react";
-import { toast } from "react-toastify";
-import { useReservasiStore } from "@/store/useReservasi";
+"use client";
 
-const ModalLogout = ({ onCloseModal }) => {
+import { getTandaTerimaPDF } from "@/api/api";
+import useGetCookie from "@/hooks/useGetCookie";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { useReservasiStore } from "@/store/useReservasi";
+import { saveAs } from "file-saver";
+
+const ModalTTR = ({ onCloseModal, id, message, href }) => {
+  const { token } = useGetCookie();
   const router = useRouter();
-  const { token, clearCookie } = useGetCookie();
   const clearReservasi = useReservasiStore((state) => state.clearReservasi);
 
-  const handleLogout = () => {
-    logout(token)
+  const handleCetak = () => {
+    getTandaTerimaPDF(token, id)
       .then((res) => {
         if (res.status === 200 || res.status === 201) {
-          clearCookie();
-          localStorage.clear();
-          clearReservasi();
+          console.log(res.data);
+          const blob = new Blob([res.data], { type: "application/pdf" });
+          // Use FileSaver.js to handle the file creation and download
+          console.log(blob);
+          saveAs(blob, "invoice.pdf");
+
           onCloseModal();
-          toast.success("Logout success");
-          router.push("/login");
+          toast.success("Berhasil mencetak");
+          clearReservasi();
+          localStorage.clear();
+          if (href == "dashboard") {
+            router.push("/dashboard");
+          }
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        if (Array.isArray(error?.response?.data?.message)) {
+          error?.response?.data?.message.map((err) => {
+            toast.error(err);
+          });
+        } else {
+          toast.error(error?.response?.data?.message);
+        }
+        router.push("/dashboard");
       });
   };
   return (
     <div
-      className="relative z-[9999]"
+      className="relative z-10"
       aria-labelledby="modal-title"
       role="dialog"
       aria-modal="true"
@@ -61,13 +77,8 @@ const ModalLogout = ({ onCloseModal }) => {
                     className="text-base font-semibold leading-6 text-gray-900"
                     id="modal-title"
                   >
-                    Logout from Account
+                    {message}
                   </h3>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      Are you sure you want to logout?
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>
@@ -75,16 +86,16 @@ const ModalLogout = ({ onCloseModal }) => {
               <button
                 type="button"
                 className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                onClick={handleLogout}
+                onClick={handleCetak}
               >
-                Yes, Logout
+                Ya
               </button>
               <button
                 type="button"
                 className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                 onClick={onCloseModal}
               >
-                Cancel
+                Batal
               </button>
             </div>
           </div>
@@ -94,4 +105,4 @@ const ModalLogout = ({ onCloseModal }) => {
   );
 };
 
-export default ModalLogout;
+export default ModalTTR;

@@ -6,16 +6,6 @@ import { useRef } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-// {
-// 	"username": "dude",
-//     "password": "12345678",
-//     "name": "dude crazy rich",
-//     "email" : "dude@gmail.com",
-//     "no_identitas" : "0123818u38123",
-//     "no_phone" : "082344876382",
-//     "address" : "JL. Majapahit"
-// }
-
 const LoginPage = () => {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);

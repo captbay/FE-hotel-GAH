@@ -118,7 +118,7 @@ const ModalEditTarifMusim = ({ onClose, id, musimOptions }) => {
               <div>
                 <label
                   for="nama"
-                  class="text-sm font-medium text-gray-900 block mb-2 "
+                  className="text-sm font-medium text-gray-900 block mb-2 "
                 >
                   Nama Musim
                 </label>
@@ -135,7 +135,7 @@ const ModalEditTarifMusim = ({ onClose, id, musimOptions }) => {
               <div>
                 <label
                   for="jenis_kamar_id"
-                  class="text-sm font-medium text-gray-900 block mb-2 "
+                  className="text-sm font-medium text-gray-900 block mb-2 "
                 >
                   Jenis Kamar
                 </label>
