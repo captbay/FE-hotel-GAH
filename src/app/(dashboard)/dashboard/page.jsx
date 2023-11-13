@@ -164,7 +164,7 @@ const Dashboard = () => {
                   <div
                     className="card w-full border mb-4"
                     key={index}
-                    style={{ zIndex: 0, position: "unset" }}
+                    style={{ zIndex: 0, position: "static" }}
                   >
                     <figure
                       onClick={() => {
