@@ -82,6 +82,7 @@ const ReservasiPage = () => {
 
   const handleOpenModalCancel = (index) => {
     setSelectedID(Reservasi[index].id);
+    setSelectedReservasi(Reservasi[index]);
     setModalCancel(true);
   };
 
@@ -259,6 +260,7 @@ const ReservasiPage = () => {
         <ModalCancel
           onCloseModal={() => setModalCancel(false)}
           id={selectedID}
+          tanggal_reservasi={selectedReservasi.tanggal_reservasi}
         />
       )}
     </>

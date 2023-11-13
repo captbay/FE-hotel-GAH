@@ -1,11 +1,26 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import { putCancelReservasi } from "@/api/api";
 import useGetCookie from "@/hooks/useGetCookie";
 import { toast } from "react-toastify";
 
-const ModalCancel = ({ onCloseModal, id }) => {
+const ModalCancel = ({ onCloseModal, id, tanggal_reservasi }) => {
   const { token } = useGetCookie();
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const sevenDaysBefore = new Date(tanggal_reservasi);
+    sevenDaysBefore.setDate(sevenDaysBefore.getDate() - 7);
+
+    // Check if the current date is within 7 days of the reservation date
+    if (currentDate < sevenDaysBefore) {
+      setMessage("Uang anda akan dibalikan");
+    } else {
+      setMessage("Uang anda tidak akan dibalikan");
+    }
+  }, [tanggal_reservasi]);
 
   const handleAction = () => {
     putCancelReservasi(token, id)
@@ -65,6 +80,7 @@ const ModalCancel = ({ onCloseModal, id }) => {
                   >
                     Yakin ingin membatalkan reservasi?
                   </h3>
+                  <p className="text-red-500">{message}</p>
                 </div>
               </div>
             </div>
