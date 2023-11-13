@@ -1,8 +1,8 @@
 import ax from "axios";
 
 export const axios = ax.create({
-  baseURL: "http://hotel-api.test/api",
-  // baseURL: "https://hotel-api.ppcdeveloper.com/api",
+  // baseURL: "http://hotel-api.test/api",
+  baseURL: "https://hotel-api.ppcdeveloper.com/api",
 });
 
 // TODO: kalo tiba tiba 401 terus pake yang dibawah
