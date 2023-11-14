@@ -10,9 +10,13 @@ const ModalCancel = ({ onCloseModal, id, tanggal_reservasi }) => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
+    console.log(tanggal_reservasi);
     const currentDate = new Date();
     const sevenDaysBefore = new Date(tanggal_reservasi);
     sevenDaysBefore.setDate(sevenDaysBefore.getDate() - 7);
+
+    console.log(currentDate.toDateString());
+    console.log(sevenDaysBefore.toDateString());
 
     // Check if the current date is within 7 days of the reservation date
     if (currentDate < sevenDaysBefore) {
@@ -27,7 +31,14 @@ const ModalCancel = ({ onCloseModal, id, tanggal_reservasi }) => {
       .then((res) => {
         if (res.status === 200 || res.status === 201) {
           onCloseModal();
-          toast.success(res.data.message);
+          if (
+            res.data.message ===
+            "Reservasi berhasil dibatalkan dan uang anda dibalikan"
+          ) {
+            toast.success(res.data.message);
+          } else {
+            toast.error(res.data.message);
+          }
           setTimeout(() => {
             window.location.reload();
           }, 3000);
@@ -80,7 +91,11 @@ const ModalCancel = ({ onCloseModal, id, tanggal_reservasi }) => {
                   >
                     Yakin ingin membatalkan reservasi?
                   </h3>
-                  <p className="text-red-500">{message}</p>
+                  {message === "Uang anda tidak akan dibalikan" ? (
+                    <p className="text-red-500">{message}</p>
+                  ) : (
+                    <p className="text-green-500">{message}</p>
+                  )}
                 </div>
               </div>
             </div>
