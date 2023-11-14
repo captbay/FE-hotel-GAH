@@ -25,14 +25,14 @@ const ReservasiPage = () => {
 
   const filteredReservasi = Reservasi.filter((k) => {
     return (
-      k.kode_booking.toLowerCase().includes(query.toLowerCase()) ||
-      k.customer.name.toLowerCase().includes(query.toLowerCase()) ||
-      k.tanggal_reservasi.toLowerCase().includes(query.toLowerCase()) ||
-      k.status.toLowerCase().includes(query.toLowerCase()) ||
-      k.total_jaminan.toString().includes(query.toString()) ||
-      k.total_deposit.toString().includes(query.toString()) ||
-      k.total_harga.toString().includes(query.toString()) ||
-      k.tanggal_pembayaran_lunas.toLowerCase().includes(query.toLowerCase())
+      k.kode_booking?.toLowerCase().includes(query.toLowerCase()) ||
+      k.customer.name?.toLowerCase().includes(query.toLowerCase()) ||
+      k.tanggal_reservasi?.toLowerCase().includes(query.toLowerCase()) ||
+      k.status?.toLowerCase().includes(query.toLowerCase()) ||
+      k.total_jaminan?.toString().includes(query.toString()) ||
+      k.total_deposit?.toString().includes(query.toString()) ||
+      k.total_harga?.toString().includes(query.toString()) ||
+      k.tanggal_pembayaran_lunas?.toLowerCase().includes(query.toLowerCase())
     );
   });
 
