@@ -14,7 +14,7 @@ const Dashboard = () => {
   const router = useRouter();
   const [kamar, setKamar] = useState([]);
   const start_dateRef = React.useRef(null);
-  const { token } = useGetCookie();
+  const { token, role } = useGetCookie();
   const end_dateRef = React.useRef(null);
   const [selectedKamar, setSelectedKamar] = useState(null);
   const [modalDetailKamar, setModalDetailKamar] = useState(false);
@@ -96,6 +96,10 @@ const Dashboard = () => {
 
     handleDashboard(start_date, end_date);
   };
+
+  if (role !== "SM" && role !== "Customer") {
+    return <div>Hello you are, {role}</div>;
+  }
 
   return (
     <>
