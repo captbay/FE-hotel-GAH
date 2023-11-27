@@ -27,9 +27,9 @@ export default function Sidebar() {
   const onCloseModal = () => setIsShowModal(false);
 
   return (
-    <aside className="h-screen w-60 sticky top-0">
-      <nav className="h-full flex flex-col dark:bg-gray-800 border-r shadow-sm">
-        <div className="p-8 self-center">
+    <aside className="sticky top-0 h-screen w-60">
+      <nav className="flex flex-col h-full border-r shadow-sm dark:bg-gray-800">
+        <div className="self-center p-8">
           <h1 className="text-white">Grand Hotel Atma</h1>
         </div>
         <ul className="flex-1 px-3 mt-4">
@@ -97,6 +97,26 @@ export default function Sidebar() {
               />
             </div>
           ) : null}
+          {role === "FO" ? (
+            <div>
+              <SidebarItem
+                active={pathname === "/fo/menginap"}
+                icon={<LayoutDashboard />}
+                text={"Data Tamu Menginap"}
+                href={"/fo/menginap"}
+              />
+            </div>
+          ) : null}
+          {role === "Owner" ? (
+            <div>
+              <SidebarItem
+                active={pathname === "/owner/report"}
+                icon={<LayoutDashboard />}
+                text={"Data Report"}
+                href={"/owner/report"}
+              />
+            </div>
+          ) : null}
         </ul>
         {role === "Customer" ? (
           <div>
@@ -109,7 +129,7 @@ export default function Sidebar() {
               />
             </div>
 
-            <div className="border-t flex p-3">
+            <div className="flex p-3 border-t">
               <Link href={"/profile"}>
                 <img
                   src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
@@ -149,7 +169,7 @@ export default function Sidebar() {
               />
             </div>
 
-            <div className="border-t flex p-3">
+            <div className="flex p-3 border-t">
               <img
                 src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
                 alt=""
@@ -185,10 +205,10 @@ const SidebarItem = ({ icon, text, active, href = "/" }) => {
   return (
     <Link
       href={href}
-      className={` 
+      className={`
         relative flex items-center py-2 px-3 my-1
         font-medium rounded-md cursor-pointer
-        transition-colors group 
+        transition-colors group
         ${active ? "bg-blue-100 text-blue-800" : "hover:bg-blue-400 text-white"}
     `}
     >

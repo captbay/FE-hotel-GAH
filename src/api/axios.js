@@ -2,7 +2,7 @@ import ax from "axios";
 
 export const axios = ax.create({
   // baseURL: "http://hotel-api.test/api",
-  baseURL: "https://hotel-api.ppcdeveloper.com/api",
+  baseURL: "http://localhost:8000/api",
 });
 
 // TODO: kalo tiba tiba 401 terus pake yang dibawah
@@ -14,7 +14,7 @@ export const axios = ax.create({
 // const { token } = JSON.parse(tokenCookie);
 
 // export const axios = ax.create({
-//   baseURL: "http://hotel-api.test/api",
+//   baseURL: "http://localhost:8000/api",
 //   // baseURL: "https://hotel-api.ppcdeveloper.com/api",
 //   headers: {
 //     Authorization: `Bearer ${token}`, // Replace with your actual access token

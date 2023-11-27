@@ -53,3 +53,24 @@ export const convertDateToStringHuman = (originalDate) => {
   const formatted = `${parseInt(day, 10)}-${months[monthIndex]}-${year}`;
   return formatted;
 };
+
+// export const currencyFormat = (num, includeRp ) => (
+//   new Intl.NumberFormat("id-ID", {
+//     style: "currency",
+//     currency: "IDR",
+//   }).format(num)
+// )
+
+export const currencyFormat = (num, includeRp = true) => {
+  if (includeRp) {
+    const options = {
+      style: "currency",
+      currency: "IDR",
+    };
+
+    return new Intl.NumberFormat("id-ID", options).format(num);
+  } else {
+    return new Intl.NumberFormat("de-DE").format(num);
+  }
+};
+

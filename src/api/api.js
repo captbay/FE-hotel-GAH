@@ -348,3 +348,124 @@ export const putUangJaminanGrup = (token, id, data) => {
     },
   });
 };
+
+//Front office
+export const getAllReservasiFO = (token) => {
+  return axios.get("/reservasi/all/fo", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const putCekin = (token, id) => {
+  return axios.put(`/reservasi/cek-in/${id}`, {}, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const postTambahFasilitasCheckIn = (token, id, data) => {
+  return axios.post(`/reservasi/tambah-fasilitas/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const getDataFasilitas = (token, id) => {
+  return axios.get(`/reservasi/total-fasilitas/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const putCheckOut = (token, id) => {
+  return axios.put(
+    `/reservasi/cek-out/${id}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const createInvoices = (token, data, id) => {
+  return axios.post(`/invoice/create/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const cetakInvoices = (token, id) => {
+  return axios.get(`/invoice/cetak/${id}`, {
+      headers: {
+          Authorization: `Bearer ${token}`,
+      },
+      responseType: 'blob',
+  });
+};
+
+export const cetakLaporan1 = (token, tahun) => {
+  return axios.get('/laporan/laporan-1', {
+      params: {
+          tahun,
+      },
+      headers: {
+          Authorization: `Bearer ${token}`,
+      },
+      responseType: 'blob',
+  });
+};
+export const cetakLaporan2 = (token, tahun) => {
+  return axios.get('/laporan/laporan-2', {
+      params: {
+          tahun,
+      },
+      headers: {
+          Authorization: `Bearer ${token}`,
+      },
+      responseType: 'blob',
+  });
+};
+export const getLaporan2 = (token, tahun) => {
+  return axios.get('/laporan/laporan-2/data', {
+      params: {
+          tahun,
+      },
+      headers: {
+          Authorization: `Bearer ${token}`,
+      },
+  });
+};
+
+export const cetakLaporan3 = (token, tahun, bulan) => {
+  return axios.get('/laporan/laporan-3', {
+      params: {
+          tahun,
+          bulan: 11,
+      },
+      headers: {
+          Authorization: `Bearer ${token}`,
+      },
+      responseType: 'blob',
+  });
+};
+
+export const getLaporan3 = (token, tahun, bulan) => {
+  return axios.get('/laporan/laporan-3/data', {
+      params: {
+          tahun,
+
+          bulan: 11,
+      },
+      headers: {
+          Authorization: `Bearer ${token}`,
+      },
+  });
+};
