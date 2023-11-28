@@ -6,6 +6,7 @@ import ChartLaporan3 from "./component/ChartLaporan3";
 import ModalDownloadCustomerBaru from "./component/ModalDownloadCustomerBaru";
 import ModalDownloadPendapatanBulanan from "./component/ModalDownloadPendapatanBulanan";
 import ModalDownloadJumlahTamu from "./component/ModalDownloadJumlahTamu";
+import ModalDownloadCustomerReservasiTerbanyak from "./component/ModalDownloadCustomerReservasiTerbanyak";
 
 const ReportPage = () => {
 
@@ -24,6 +25,9 @@ const ReportPage = () => {
     isOpen: false
   })
 
+  const [showChart1, setShowChart1] = useState(true)
+  const [showChart2, setShowChart2] = useState(true)
+
   const openModal = (type) => modal.type == type && modal.isOpen
 
   const handleCloseModal = () => {
@@ -37,7 +41,7 @@ const ReportPage = () => {
     <>
       <div>
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold">Data Tamu Menginap</h1>
+          <h1 className="text-2xl font-bold">Data Report</h1>
         </div>
 
         <div className="flex items-center gap-4 mb-4">
@@ -59,7 +63,6 @@ const ReportPage = () => {
             <button
               className="px-4 py-2 text-white bg-blue-500 rounded"
               onClick={() => {
-                // _getLaporan1();
                 setModal({
                   type: 'customer',
                   isOpen: true
@@ -73,7 +76,15 @@ const ReportPage = () => {
 
         <div>
           <div className="flex items-center justify-between mb-6">
-            <h1 className="text-xl font-bold">Laporan Pendapatan Bulanan</h1>
+            <div className="flex items-center gap-4">
+              <h1 className="text-xl font-bold">Laporan Pendapatan Bulanan</h1>
+              <span
+                className="px-2 text-sm rounded-full cursor-pointer bg-slate-200"
+                onClick={() => setShowChart1(prev => !prev)}
+              >
+                {showChart1 ? 'Hide Chart' : 'Show Chart'}
+              </span>
+            </div>
             <button
               className="px-4 py-2 text-white bg-blue-500 rounded"
               onClick={() => {
@@ -86,13 +97,21 @@ const ReportPage = () => {
           </div>
         </div>
 
-        <ChartLaporan2 year={year} />
+        {showChart1 && <ChartLaporan2 year={year} />}
 
         <hr className="my-4" />
 
         <div>
           <div className="flex items-center justify-between mb-6">
-            <h1 className="text-xl font-bold">Laporan Jumlah Tamu</h1>
+            <div className="flex items-center gap-4">
+              <h1 className="text-xl font-bold">Laporan Jumlah Tamu</h1>
+              <span
+                className="px-2 text-sm rounded-full cursor-pointer bg-slate-200"
+                onClick={() => setShowChart2(prev => !prev)}
+              >
+                {showChart2 ? 'Hide Chart' : 'Show Chart'}
+              </span>
+            </div>
             <button
               className="px-4 py-2 text-white bg-blue-500 rounded"
               onClick={() => {
@@ -105,30 +124,54 @@ const ReportPage = () => {
           </div>
         </div>
 
-        <ChartLaporan3 year={year} />
+        {showChart2 && <ChartLaporan3 year={year} />}
       </div>
+
+      <hr className="my-4" />
+      <div>
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-xl font-bold">Laporan Customer Reservasi Terbanyak</h1>
+            <button
+              className="px-4 py-2 text-white bg-blue-500 rounded"
+              onClick={() => {
+                setModal({
+                  type: 'reservasi',
+                  isOpen: true
+                })
+              }}
+            >Download</button>
+          </div>
+        </div>
 
       {openModal('customer') && (
         <ModalDownloadCustomerBaru
           onClose={handleCloseModal}
           year={year}
           token={token}
-          />
-          )}
+        />
+      )}
 
       {openModal('pendapatan') && (
         <ModalDownloadPendapatanBulanan
-        onClose={handleCloseModal}
-        year={year}
-        token={token}
+          onClose={handleCloseModal}
+          year={year}
+          token={token}
         />
-        )}
+      )}
 
       {openModal('tamu') && (
         <ModalDownloadJumlahTamu
-        onClose={handleCloseModal}
-        year={year}
-        token={token}
+          onClose={handleCloseModal}
+          year={year}
+          token={token}
+        />
+      )}
+
+      {openModal('reservasi') && (
+        <ModalDownloadCustomerReservasiTerbanyak
+          onClose={handleCloseModal}
+          year={year}
+          token={token}
         />
       )}
 

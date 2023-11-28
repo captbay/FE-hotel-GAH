@@ -107,7 +107,7 @@ export default function Sidebar() {
               />
             </div>
           ) : null}
-          {role === "Owner" ? (
+          {role === "Owner" || role === "GM" ? (
             <div>
               <SidebarItem
                 active={pathname === "/owner/report"}

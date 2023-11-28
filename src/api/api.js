@@ -469,3 +469,15 @@ export const getLaporan3 = (token, tahun, bulan) => {
       },
   });
 };
+
+export const cetakLaporan4 = (token, tahun) => {
+  return axios.get('/laporan/laporan-4', {
+      params: {
+          tahun,
+      },
+      headers: {
+          Authorization: `Bearer ${token}`,
+      },
+      responseType: 'blob',
+  });
+};

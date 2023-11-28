@@ -15,11 +15,14 @@ const ModalCheckOutMenginap = ({
   onSuccess
 }) => {
   const { token, id: pegawai_id } = useGetCookie();
-  const [fTambahan, setFTambahan] = useState([])
+  const [lunasi, setLunasi] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [totalHarga, setTotalHarga] = useState(0);
-  const [fasilitas, setFasilitas] = useState([]);
+  const [error, setError] = useState('')
   const [loadingCekout, setLoadingCekout] = useState(false);
+  const [isDirty, setIsDirty] = useState(false)
+  const [sisanyaTagihan, setSisanyaTagihan] = useState(0)
+
 
   const handleGetFasilitas = async (selectedId) => {
     try {
@@ -27,7 +30,6 @@ const ModalCheckOutMenginap = ({
       const res = await getDataFasilitas(token, selectedId);
       if (res.status === 200) {
         setTotalHarga(res.data.data.total_harga_fasilitas);
-        setFasilitas(res.data.data.fasilitas);
       }
 
     } catch (error) {
@@ -43,31 +45,65 @@ const ModalCheckOutMenginap = ({
 
   const handleCheckOut = async () => {
     try {
-        setLoadingCekout(true);
-        const res = await Promise.all([
-            putCheckOut(token, idReservasi),
-            createInvoices(
-                token,
-                {
-                    pegawai_id,
-                },
-                idReservasi
-            ),
-        ]);
+      setLoadingCekout(true);
+      const res = await Promise.all([
+        putCheckOut(token, idReservasi),
+        createInvoices(
+          token,
+          {
+            pegawai_id,
+          },
+          idReservasi
+        ),
+      ]);
 
-        if (res[0].status === 200 && res[1].status === 200) {
-            toast.success(res[0].data?.message);
-        }
+      if (res[0].status === 200 && res[1].status === 200) {
+        toast.success(res[0].data?.message);
+      }
     } catch (error) {
-        console.log(error);
-        toast.error('Terjadi kesalahan pada server')
+      console.log(error);
+      toast.error('Terjadi kesalahan pada server')
     } finally {
-        setLoadingCekout(false);
-        onSuccess()
-        onClose()
+      setLoadingCekout(false);
+      onSuccess()
+      onClose()
     }
-};
+  };
 
+  const deposit = 300000
+
+  const penginapan = dataReservasi?.total_harga -
+    dataReservasi?.total_jaminan
+
+  const fasilitasTambahan = totalHarga
+
+  const sisaDeposit = deposit - penginapan - fasilitasTambahan
+
+  const sisaTagihan = sisaDeposit < 0 ? sisaDeposit * - 1 : 0
+
+  const handleChange = (e) => {
+    const inputValue = e.target.value.replace(/\D/g, '');
+
+    const formattedValue = new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(inputValue);
+    e.target.value = formattedValue;
+
+    if (Number(inputValue) !== sisaTagihan) {
+      setError('Masukkan jumlah pembayaran sesuai tagihan');
+    } else {
+      setError('');
+    }
+    setIsDirty(false)
+  }
+
+  useEffect(() => {
+    if (sisaTagihan) {
+      setSisanyaTagihan(sisaTagihan)
+    }
+  }, [sisaTagihan])
 
   return (
     <div
@@ -94,91 +130,122 @@ const ModalCheckOutMenginap = ({
                     Setelah check out, Status reservasi ini akan berubah menjadi <span className='px-2 text-sm text-white bg-red-500 rounded-2xl whitespace-nowrap'>Check Out</span> dan <span className='text-red-500'>tidak dapat dikembalikan lagi.</span>
                   </p>
 
-                  {isLoading ?
-                    <div className='flex justify-center my-4'>
-                      <div
-                        className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                        role="status">
-                        <span
-                          className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
-                        >Loading...</span
-                        >
+                  {lunasi ?
+                    <div className='my-4'>
+                      <p>
+                        Lunasi tagihan anda seniai <span className='font-bold'>{currencyFormat(sisaTagihan)}</span>
+                      </p>
+                      <div className=''>
+
+                        <input
+                          type='text'
+                          className='w-full px-2 py-1 my-2 border rounded-lg'
+                          placeholder='Masukkan jumlah pembayaran anda'
+                          onChange={handleChange}
+                        />
+                        <p className='text-sm text-red-500'>{error}</p>
                       </div>
                     </div>
                     :
-                    <div className='grid justify-start grid-cols-2 gap-2 mt-4'>
 
-                      <div className='flex justify-start text-left '>
-                        <p >Tagihan penginapan yang harus dibayar</p>
+                    isLoading ?
+                      <div className='flex justify-center my-4'>
+                        <div
+                          className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                          role="status">
+                          <span
+                            className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                          >Loading...</span
+                          >
+                        </div>
                       </div>
+                      :
+                      <div className='grid justify-start grid-cols-2 gap-2 mt-4'>
 
-                      <div className='flex items-start justify-between '>
-                        <p className='ms-10 whitespace-nowrap'>Rp.</p>
-                        {currencyFormat(dataReservasi?.total_harga -
-                          dataReservasi?.total_jaminan, false)},00
+                        <div className='flex justify-start text-left '>
+                          <p >Tagihan penginapan</p>
+                        </div>
+
+                        <div className='flex items-start justify-between '>
+                          <p className='ms-10 whitespace-nowrap'>Rp.</p>
+                          {currencyFormat(penginapan, false)},00
+                        </div>
+
+                        <div className='flex justify-start text-left '>
+                          <p >Total deposit</p>
+                        </div>
+
+                        <div className='flex items-start justify-between '>
+                          <p className='ms-10 whitespace-nowrap'>Rp.</p>
+                          {currencyFormat(deposit, false)},00
+                        </div>
+
+                        <div className='flex justify-start text-left '>
+                          <p >Tagihan fasilitas tambahan</p>
+                        </div>
+
+                        <div className='flex items-start justify-between '>
+                          <p className='ms-10 whitespace-nowrap'>Rp.</p>
+                          {currencyFormat(fasilitasTambahan, false)},00
+                        </div>
+
+                        {/* Total */}
+                        <hr className='my-4' />
+                        <hr className='my-4' />
+                        <div className='flex justify-start text-left '>
+                          <p >Total tagihan</p>
+                        </div>
+
+                        <div className='flex items-start justify-between '>
+                          <p className='ms-10 whitespace-nowrap'>Rp.</p>
+                          { currencyFormat(sisanyaTagihan, false)},00
+
+                        </div>
+
+                        <div className='flex justify-start text-left '>
+                          <p >Sisa deposit</p>
+                        </div>
+
+                        <div className='flex items-start justify-between '>
+                          <p className='ms-10 whitespace-nowrap'>Rp.</p>
+                          {currencyFormat(sisaDeposit <= 0 ? 0 : sisaDeposit, false)},00
+                        </div>
+
+
                       </div>
-
-                      <div className='flex justify-start text-left '>
-                        <p >Total deposit yang harus dikembalikan</p>
-                      </div>
-
-                      <div className='flex items-start justify-between '>
-                        <p className='ms-10 whitespace-nowrap'>Rp.</p>
-                        {currencyFormat(dataReservasi?.total_deposit -
-                          totalHarga >
-                          0
-                          ? dataReservasi?.total_deposit -
-                          totalHarga
-                          : 0, false)},00
-                      </div>
-
-                      <div className='flex justify-start text-left '>
-                        <p >Tagihan fasilitas tambahan</p>
-                      </div>
-
-                      <div className='flex items-start justify-between '>
-                        <p className='ms-10 whitespace-nowrap'>Rp.</p>
-                        {currencyFormat(totalHarga -
-                          dataReservasi?.total_deposit >
-                          0
-                          ? totalHarga -
-                          dataReservasi?.total_deposit
-                          : 0, false)},00
-                      </div>
-
-                      {/* Total */}
-                      <hr className='my-4' />
-                      <hr className='my-4' />
-                      <div className='flex justify-start text-left '>
-                        <p >Total tagihan</p>
-                      </div>
-
-                      <div className='flex items-start justify-between '>
-                        <p className='ms-10 whitespace-nowrap'>Rp.</p>
-                        {currencyFormat(dataReservasi?.total_harga -
-                          dataReservasi?.total_jaminan +
-                          (totalHarga -
-                            dataReservasi?.total_deposit >
-                            0
-                            ? totalHarga -
-                            dataReservasi?.total_deposit
-                            : 0), false)},00
-                      </div>
-
-                    </div>
                   }
+
+
                 </div>
               </div>
             </div>
             <div className="px-4 py-3 bg-gray-50 sm:flex sm:flex-row-reverse sm:px-6">
-              <button
-                type="button"
-                className="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-white bg-red-600 rounded-md shadow-sm disabled:cursor-not-allowed hover:bg-red-500 sm:ml-3 sm:w-auto"
-                onClick={handleCheckOut}
-                disabled={loadingCekout}
-              >
-                Check Out Sekarang
-              </button>
+
+              {sisanyaTagihan > 0?
+                <button
+                  type="button"
+                  className="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-white bg-red-600 rounded-md shadow-sm disabled:cursor-not-allowed hover:bg-red-500 sm:ml-3 sm:w-auto"
+                  onClick={() => {
+                    setLunasi(prev => !prev)
+                    if (lunasi) {
+                      setSisanyaTagihan(0)
+                    } else {
+                      setIsDirty(true)
+                    }
+                  }}
+                  disabled={error || isDirty}
+                >
+                  { !lunasi ? 'Lunasi Sekarang' : 'Bayar Sekarang'}
+                </button> :
+                <button
+                  type="button"
+                  className="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-white bg-red-600 rounded-md shadow-sm disabled:cursor-not-allowed hover:bg-red-500 sm:ml-3 sm:w-auto"
+                  onClick={handleCheckOut}
+                  disabled={loadingCekout}
+                >
+                  Check Out Sekarang
+                </button>
+              }
               <button
                 type="button"
                 className="inline-flex justify-center w-full px-3 py-2 mt-3 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
